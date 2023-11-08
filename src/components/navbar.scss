@@ -1,0 +1,20 @@
+@import '../globals/globals.scss';
+
+.navbar{
+    background-color: $main-bg;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: $poppins;
+    margin: 0;
+
+    .title{
+        margin-right: 20px;
+    }
+
+    .links{
+        display: flex;
+        width: 250px;
+        justify-content: space-between;
+    }
+}
