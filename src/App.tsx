@@ -2,7 +2,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/home/home";
 import Create from "./pages/create/create";
 import Update from "./pages/update/update";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar/navbar";
 
 const App = () => {
   const Layout = () => {

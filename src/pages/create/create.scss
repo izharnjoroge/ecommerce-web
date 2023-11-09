@@ -1,0 +1,28 @@
+@import'../../globals/globals.scss';
+
+.create-form{
+   background-color: azure;
+   padding: auto;
+   max-width: 400px;
+   border-radius: 6px;
+   justify-content: center;
+
+   .form-inputs{
+    display: block;
+    width:100%;
+    align-items: center;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    margin-bottom: 10px;
+    margin-top: 10px;
+   }
+   .form-button{
+    background-color: $secondary-bg;
+    color: black;
+    border: 0;
+    border-radius: 6px;
+    font-family: $poppins;
+    cursor: pointer;
+   }
+}

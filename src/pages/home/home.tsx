@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import supabase from "../../config/client";
 import { dataInterface } from "../../interface/data";
-
+import ItemsCard from "../../components/card/items";
+import "./home.scss";
 const home = () => {
   const [error, setError] = useState<String | null>();
   const [products, setProducts] = useState<dataInterface[] | null>();
@@ -25,14 +26,17 @@ const home = () => {
   return (
     <div>
       {products && (
-        <div>
+        <div className="items">
           {products.map((product) => (
-            <div>
-              <h1>{product.title}</h1>
-              <p>{product.description}</p>
-              <h2>{product.created_at.toString()}</h2>
-              <h3>{product.amount}</h3>
-              <h4>{product.rating}</h4>
+            <div key={product.id} className="items-grid">
+              <ItemsCard
+                id={product.id}
+                created_at={product.created_at}
+                title={product.title}
+                description={product.description}
+                amount={product.amount}
+                rating={product.rating}
+              />
             </div>
           ))}
         </div>
