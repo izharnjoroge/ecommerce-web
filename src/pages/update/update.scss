@@ -1,0 +1,26 @@
+@import'../../globals/globals.scss';
+
+.form-screen{
+   .create-form{
+      padding: auto;
+      width: auto;
+      border-radius: 6px;
+     .form-inputs{
+      width: 400px;
+      align-items: center;
+      box-sizing: border-box;
+      border: 1px solid #fff;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      }
+      .form-button{
+       width: 100px;
+       background-color: $secondary-bg;
+       color: white;
+       border: 0;
+       border-radius: 6px;
+       font-family: $poppins;
+       cursor: pointer;
+      }
+   }
+}
