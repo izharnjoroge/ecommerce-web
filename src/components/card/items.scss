@@ -1,20 +1,19 @@
 @import '../../globals/globals.scss';
 
 .items-card{
-    border-radius: 6px;
-    border-color: black;
     position: relative;
-    background-color: $soft-color;
-    text-decoration-color:$dark-color;
+    color: $main-color;
     overflow: hidden;
-    padding: 20px;
-    margin: 10px;
+    border-right: 2px solid white;
+    max-height: 150px;
+    min-height: 150px;
+    
   .item-rating{
     position: absolute;
     top: -10px;
     right: -10px;
     background-color: $secondary-bg;
-    color: $dark-color;
+    color: $soft-color;
     font-family: $poppins;
     border-radius: 10px;
     width: 40px;

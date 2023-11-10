@@ -1,15 +1,16 @@
 @import '../../globals/globals.scss';
 
 .navbar{
-    background-color: $main-bg;
-    width: 100%;
+    color: white;
     display: flex;
     align-items: center;
     font-family: $poppins;
-    margin: 0;
+    height: 50px;
+    margin-bottom:10px;
+
 
     .title{
-        margin-right: 20px;
+        margin-left: 20px;
     }
 
     .links{

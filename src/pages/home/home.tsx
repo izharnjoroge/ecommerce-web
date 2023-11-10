@@ -23,6 +23,7 @@ const home = () => {
 
     fetchProducts();
   }, []);
+
   return (
     <div>
       {products && (

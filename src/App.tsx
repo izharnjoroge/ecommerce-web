@@ -3,14 +3,23 @@ import Home from "./pages/home/home";
 import Create from "./pages/create/create";
 import Update from "./pages/update/update";
 import Navbar from "./components/navbar/navbar";
+import Sidebar from "./components/sidebar/sidebar";
+import "./globals/main.scss";
 
 const App = () => {
   const Layout = () => {
     return (
-      <>
+      <div className="main">
         <Navbar />
-        <Outlet />
-      </>
+        <div className="container">
+          <div className="menu-container">
+            <Sidebar />
+          </div>
+          <div className="content-container">
+            <Outlet />
+          </div>
+        </div>
+      </div>
     );
   };
 

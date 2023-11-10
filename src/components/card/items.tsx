@@ -6,7 +6,6 @@ const ItemsCard = (props: dataInterface) => {
     <div className="items-card">
       <h3>{props.title}</h3>
       <p>{props.description}</p>
-
       <h6>{props.amount}</h6>
       <h6 className="item-rating">{props.rating}</h6>
     </div>

@@ -57,47 +57,59 @@ const Create = () => {
   };
 
   return (
-    <div>
+    <div className="form-screen">
       <form onSubmit={handleSubmit} className="create-form">
-        <div className="form-inputs">
+        <div className="form-div">
           <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            required
-            value={formData.title}
-            onChange={handleChange}
-          />
+          <div>
+            <input
+              type="text"
+              name="title"
+              required
+              className="form-inputs"
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="form-inputs">
+        <div className="form-div">
           <label>Description:</label>
-          <textarea
-            name="description"
-            maxLength={255}
-            required
-            value={formData.description}
-            onChange={handleChange}
-          />
+          <div>
+            <textarea
+              name="description"
+              maxLength={255}
+              required
+              className="form-inputs"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="form-inputs">
+        <div className="form-div">
           <label>Amount:</label>
-          <input
-            name="amount"
-            required
-            value={formData.amount}
-            onChange={handleChange}
-          />
+          <div>
+            <input
+              name="amount"
+              required
+              className="form-inputs"
+              value={formData.amount}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="form-inputs">
+        <div className="form-div">
           <label>Rating:</label>
-          <input
-            name="rating"
-            min={1}
-            max={10}
-            required
-            value={formData.rating}
-            onChange={handleChange}
-          />
+          <div>
+            <input
+              name="rating"
+              min={1}
+              max={10}
+              required
+              className="form-inputs"
+              value={formData.rating}
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <button type="submit" className="form-button">
           Submit
