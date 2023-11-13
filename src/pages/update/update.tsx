@@ -50,9 +50,9 @@ const Update = () => {
       setError("Error updating product");
     }
     if (data) {
-      alert("Successfully update");
-      navigate("/");
     }
+    alert("Successfully update");
+    navigate("/home");
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Update = () => {
         .limit(1);
       if (error) {
         setError("Record Not Found!");
-        navigate("/");
+        navigate("/home");
       }
       if (data) {
         const updateData: dataInterface[] = data;

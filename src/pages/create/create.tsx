@@ -4,10 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./create.scss";
 import { dataInterface } from "../../interface/data";
 const Create = () => {
-  // const[title,setTitle] = useState<String|null>();
-  // const[description,setDescription] = useState<String|null>();
-  // const[amount,setAmount] = useState<String|null>();
-  // const[rating,setRating] = useState<String|null>();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<dataInterface | null>();
   const [formError, setFormError] = useState<String | null>();
@@ -38,13 +34,12 @@ const Create = () => {
       return;
     }
     if (data) {
-      setFormError(null);
-      console.log(data);
     }
 
     setFormData(null);
     setFormError(null);
-    navigate("/");
+    alert("product added successfully");
+    navigate("/home");
   };
 
   return (
@@ -58,7 +53,7 @@ const Create = () => {
               name="title"
               required
               className="form-inputs"
-              value={formData!.title}
+              value={formData?.title ?? ""}
               onChange={handleChange}
             />
           </div>
@@ -71,7 +66,7 @@ const Create = () => {
               maxLength={255}
               required
               className="form-inputs"
-              value={formData!.description}
+              value={formData?.description ?? ""}
               onChange={handleChange}
             />
           </div>
@@ -83,7 +78,7 @@ const Create = () => {
               name="amount"
               required
               className="form-inputs"
-              value={formData!.amount}
+              value={formData?.amount ?? ""}
               onChange={handleChange}
             />
           </div>
@@ -97,7 +92,7 @@ const Create = () => {
               max={10}
               required
               className="form-inputs"
-              value={formData!.rating}
+              value={formData?.rating ?? ""}
               onChange={handleChange}
             />
           </div>

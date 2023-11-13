@@ -7,6 +7,12 @@ const home = () => {
   const [error, setError] = useState<String | null>();
   const [products, setProducts] = useState<dataInterface[] | null>();
 
+  const handleDelete = (id: number) => {
+    setProducts((prevProduct) => {
+      return prevProduct?.filter((product) => product.id !== id);
+    });
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       const { data, error } = await supabase.from("shop_items").select();
@@ -37,6 +43,7 @@ const home = () => {
                 description={product.description}
                 amount={product.amount}
                 rating={product.rating}
+                onDelete={handleDelete}
               />
             </div>
           ))}
