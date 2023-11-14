@@ -5,4 +5,5 @@ export interface dataInterface {
     description: string
     amount: string
     rating: string
+    image?: string
   }

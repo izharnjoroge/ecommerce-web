@@ -12,7 +12,6 @@ import Sidebar from "./components/sidebar/sidebar";
 import "./globals/main.scss";
 import Auth from "./pages/auth/userCreation/auth";
 
-// Global boolean variable indicating whether the user is authenticated
 const isAuthenticated = true;
 
 // ProtectedRoute HOC

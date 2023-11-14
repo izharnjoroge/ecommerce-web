@@ -92,9 +92,9 @@ const Auth = () => {
             <label>Email</label>
             <input
               type="text"
-              title="email"
+              name="email"
               required
-              value={formData.email}
+              value={formData?.email ?? ""}
               onChange={handleChange}
             />
           </div>
@@ -104,11 +104,11 @@ const Auth = () => {
             </div>
             <input
               type="text"
-              title="password"
+              name="password"
               min={6}
               max={16}
               required
-              value={formData.password}
+              value={formData?.password ?? ""}
               onChange={handleChange}
             />
           </div>
