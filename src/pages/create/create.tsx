@@ -3,10 +3,11 @@ import supabase from "../../config/client";
 import { useNavigate } from "react-router-dom";
 import "./create.scss";
 import { dataInterface } from "../../interface/data";
+
 const Create = () => {
   //Navigation
-
   const navigate = useNavigate();
+
   // state
   const [formData, setFormData] = useState<dataInterface | null>();
   const [formError, setFormError] = useState<String | null>();
@@ -66,9 +67,8 @@ const Create = () => {
   //submit data to db
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await uploadFile(imageFile!);
     const { title, description, amount, rating, image } = formData!;
-    uploadFile(imageFile!);
-
     const { data, error } = await supabase.from("shop_items").insert([
       {
         title,
