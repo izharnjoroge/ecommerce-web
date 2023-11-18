@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import supabase from "../../../config/client";
 import { useNavigate } from "react-router-dom";
 import "./auth.scss";
+import { useAuthContext } from "../../../authContext/auth_context";
 
 /*
  The commented code uses the useRef Hook instead of the useState Hook 
@@ -164,12 +165,16 @@ const Auth = () => {
     password: "",
   });
 
+  //set global value
+  const { setAuth } = useAuthContext();
+
   //Error State
   const [formError, setFormError] = useState<string | null>();
 
   // Default to SignUp mode
   const [authMode, setAuthMode] = useState<AuthMode>(AuthMode.SignIn);
 
+  //Actions
   const authActions = {
     [AuthMode.SignUp]: signUpNewUser,
     [AuthMode.SignIn]: signInWithEmail,
@@ -207,6 +212,7 @@ const Auth = () => {
     const successMessage =
       authMode === AuthMode.SignUp ? "Account created successfully" : "Welcome";
     alert(successMessage);
+    setAuth(true);
     navigate("/home");
   };
 
@@ -222,8 +228,6 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData.email);
-    console.log(formData.password);
     authActions[authMode](formData.email, formData.password!);
   };
 

@@ -17,23 +17,7 @@ const Create = () => {
 
   //Functions
   //upload images
-  async function uploadFile(file: File) {
-    const { data, error } = await supabase.storage
-      .from("test")
-      .upload(imageName!, file);
-    if (error) {
-      alert("error uploading file");
-      return;
-    }
-    if (data) {
-      const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
-      const url = publicUrl.data.publicUrl;
-      setFormData({
-        ...formData!,
-        image: url,
-      });
-    }
-  }
+  async function uploadFile(file: File) {}
 
   //update state variables
   const handleChange = (
@@ -67,28 +51,38 @@ const Create = () => {
   //submit data to db
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await uploadFile(imageFile!);
-    const { title, description, amount, rating, image } = formData!;
-    const { data, error } = await supabase.from("shop_items").insert([
-      {
-        title,
-        description,
-        amount,
-        rating,
-        image,
-      },
-    ]);
+    const { data, error } = await supabase.storage
+      .from("test")
+      .upload(imageName!, imageFile!);
     if (error) {
-      setFormError("Error setting record");
+      alert("error uploading file");
       return;
     }
     if (data) {
-    }
+      const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
+      const image = publicUrl.data.publicUrl;
+      const { title, description, amount, rating } = formData!;
+      const { data, error } = await supabase.from("shop_items").insert([
+        {
+          title,
+          description,
+          amount,
+          rating,
+          image,
+        },
+      ]);
+      if (error) {
+        setFormError("Error setting record");
+        return;
+      }
+      if (data) {
+      }
 
-    setFormData(null);
-    setFormError(null);
-    alert("product added successfully");
-    navigate("/home");
+      setFormData(null);
+      setFormError(null);
+      alert("product added successfully");
+      navigate("/home");
+    }
   };
 
   //delete image

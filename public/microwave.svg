@@ -1,0 +1,15 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<path d="M1024 800a64 64 0 0 1-64 64H64a64 64 0 0 1-64-64V223.968a64 64 0 0 1 64-64h896a64 64 0 0 1 64 64V800z" fill="#EAEAEA"/>
+<path d="M800 768a32 32 0 0 1-32 32H96a32 32 0 0 1-32-32V256a32 32 0 0 1 32-32h672a32 32 0 0 1 32 32v512z" fill="#469FCC"/>
+<path d="M699.328 392.576l-67.872-67.872a16 16 0 0 0-22.624 22.624l67.872 67.872a16 16 0 0 0 22.624-22.624zM564.384 346.496a16 16 0 0 0-22.624 22.624l113.12 113.12a16 16 0 0 0 22.624-22.624l-113.12-113.12z" fill="#FFFFFF"/>
+<path d="M912 271.936m-48 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0Z" fill="#434854"/>
+<path d="M912 431.968m-48 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0Z" fill="#3AAD73"/>
+<path d="M64 864h128v32H64zM832 864h128v32h-128z" fill="#434854"/>
+<path d="M912 351.968a48 48 0 0 0 48-48c0-5.632-1.152-10.976-2.944-16-6.624 18.592-24.192 32-45.056 32s-38.432-13.408-45.056-32a47.456 47.456 0 0 0-2.944 16 48 48 0 0 0 48 48zM912 479.968a47.872 47.872 0 0 1-45.056-32 47.456 47.456 0 0 0-2.944 16 48 48 0 0 0 96 0c0-5.632-1.152-10.976-2.944-16-6.624 18.592-24.192 32-45.056 32z" fill=""/>
+</g>
+</svg>

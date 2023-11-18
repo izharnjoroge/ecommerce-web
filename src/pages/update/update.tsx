@@ -1,17 +1,72 @@
-import { useNavigate, useParams } from "react-router-dom";
 import supabase from "../../config/client";
 import { useEffect, useState } from "react";
 import { dataInterface } from "../../interface/data";
 import "./update.scss";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchProduct, updateProduct } from "../../functions";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Update = () => {
+export default function Update() {
+  //states
+  const [formData, setFormData] = useState<dataInterface[] | []>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string | "">();
+  const [imageFile, setFile] = useState<File | null>(null);
+  //params
   const { id } = useParams();
 
-  const [error, setError] = useState<String | null>();
-  const [formData, setFormData] = useState<dataInterface[] | []>();
+  // Query
+  const { isPending, error, data } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => fetchProduct(id!),
+  });
 
+  //Get Data
+  useEffect(() => {
+    if (data) {
+      const updateData: dataInterface[] = data || [];
+
+      setFormData(updateData);
+      setSelectedImage(updateData[0]?.image || "");
+    }
+  }, [data]);
+
+  //navigation
   const navigate = useNavigate();
 
+  //Mutation to Update
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: updateProduct,
+    onSuccess: (newProduct) => {
+      queryClient.setQueryData(["products"], newProduct);
+      alert("Successfully updated");
+      navigate("/home");
+    },
+    onError(error) {
+      alert(error);
+    },
+  });
+
+  //Change Image
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fls = e.target.files as FileList;
+    const file = fls[0];
+    setImageName(file.name);
+    if (file && file.size <= 1024 * 1024 * 2) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setSelectedImage(reader.result as string);
+      };
+      setFile(file as File);
+    } else {
+      alert("Please select an image smaller than 2 MB.");
+      return;
+    }
+  };
+
+  //Change Inputs
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -30,60 +85,41 @@ const Update = () => {
     });
   };
 
+  // Submit Form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, description, amount, rating } = formData![0];
-    console.log(title);
-    console.log(description);
-    const { data, error } = await supabase
-      .from("shop_items")
-      .update([
-        {
-          title,
-          description,
-          amount,
-          rating,
-        },
-      ])
-      .eq("id", id);
+    const { data, error } = await supabase.storage
+      .from("test")
+      .upload(imageName!, imageFile!);
     if (error) {
-      setError("Error updating product");
+      alert("error uploading file");
+      return;
     }
     if (data) {
+      const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
+      const image = publicUrl.data.publicUrl;
+      console.log(image);
+      const { title, description, amount, rating } = formData![0];
+      mutation.mutate({
+        title: title,
+        description: description,
+        amount: amount,
+        rating: rating,
+        imageUrl: image,
+        id: id!,
+      });
     }
-    alert("Successfully update");
-    navigate("/home");
   };
 
-  useEffect(() => {
-    const getRecord = async () => {
-      const { data, error } = await supabase
-        .from("shop_items")
-        .select()
-        .eq("id", id)
-        .limit(1);
-      if (error) {
-        setError("Record Not Found!");
-        navigate("/home");
-      }
-      if (data) {
-        const updateData: dataInterface[] = data;
-        setFormData(updateData);
-        console.log();
-      }
-    };
-    getRecord();
-  }, [id, navigate]);
+  if (isPending) return "Loading...";
 
-  if (!formData) {
-    return <div>Loading...</div>;
-  }
+  if (error) return "An error has occurred: " + error.message;
 
   return formData?.length === 0 ? (
     <div>Record doesn't exist</div>
   ) : (
     <div className="form-screen">
-      <form className="create-form" onChange={handleSubmit}>
+      <form className="create-form" onSubmit={handleSubmit}>
         <div className="form-div">
           <label>Title:</label>
           <div>
@@ -132,13 +168,35 @@ const Update = () => {
             />
           </div>
         </div>
+
+        <div className="form-div">
+          <label>Image:</label>
+          <div>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt={imageName}
+                width={200}
+                height={200}
+              />
+            )}
+            <div>
+              <input
+                name="image"
+                className="form-inputs"
+                type="file"
+                accept="image/*"
+                value={""}
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <button type="submit" className="form-button">
           Update
         </button>
       </form>
-      {error && <p>{error}</p>}
     </div>
   );
-};
-
-export default Update;
+}

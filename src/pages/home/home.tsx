@@ -1,7 +1,7 @@
 import { dataInterface } from "../../interface/data";
 import ItemsCard from "../../components/card/items";
 import "./home.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchProducts } from "../../functions";
 
 // const home = () => {
@@ -58,6 +58,10 @@ import { fetchProducts } from "../../functions";
 // export default home;
 
 export default function home() {
+  //Query Client To Trigger a refresh
+  const queryClient = useQueryClient();
+
+  //Query
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
@@ -69,8 +73,8 @@ export default function home() {
 
   const products: dataInterface[] = data || [];
 
-  const handleDelete = (id: number) => {
-    return products?.filter((product) => product.id !== id);
+  const handleDelete = () => {
+    queryClient.invalidateQueries({ queryKey: ["products"] });
   };
 
   return (

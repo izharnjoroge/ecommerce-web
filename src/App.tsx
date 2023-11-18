@@ -11,32 +11,35 @@ import Navbar from "./components/navbar/navbar";
 import Sidebar from "./components/sidebar/sidebar";
 import "./globals/main.scss";
 import Auth from "./pages/auth/userCreation/auth";
-
-const isAuthenticated = true;
-
-// ProtectedRoute HOC
-const ProtectedRoute = ({ element, path }: any) => {
-  return isAuthenticated ? (
-    element
-  ) : (
-    <Navigate to="/auth" replace state={{ from: path }} />
-  );
-};
+import { useAuthContext } from "./authContext/auth_context";
+import SignOut from "./pages/auth/signOut/signOut";
 
 const App = () => {
+  //GLobal Auth value
+  const { isAuth } = useAuthContext();
+  const isAuthenticated = isAuth;
+
+  // ProtectedRoute HOC
+  const ProtectedRoute = ({ element, path }: any) => {
+    return isAuthenticated ? (
+      element
+    ) : (
+      <Navigate to="/" replace state={{ from: path }} />
+    );
+  };
+
   const Layout = () => {
-    const isRootRoute = window.location.pathname === "/";
     return (
       <div className="main">
-        {isRootRoute ? null : <Navbar />}
+        {!isAuthenticated ? null : <Navbar />}
         <div className="container">
-          {isRootRoute ? null : (
+          {!isAuthenticated ? null : (
             <div className="menu-container">
               <Sidebar />
             </div>
           )}
           <div className="content-container">
-            {<Outlet /> || <Navigate to="/auth" />}
+            {<Outlet /> || <Navigate to="/" />}
           </div>
         </div>
       </div>
@@ -63,6 +66,10 @@ const App = () => {
         {
           path: "/:id",
           element: <ProtectedRoute element={<Update />} />,
+        },
+        {
+          path: "/signOut",
+          element: <ProtectedRoute element={<SignOut />} />,
         },
       ],
     },

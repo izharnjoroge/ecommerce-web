@@ -51,6 +51,7 @@ export  async function fetchProduct(id:string) {
 // }
 
 export  async function updateProduct({title,description,amount,rating,imageUrl,id} :{title:string,description:string,amount:string,rating:string,imageUrl:string,id:string}) {
+  console.log('here' ,imageUrl);
   try {
     const { data, error } = await supabase
         .from("shop_items")

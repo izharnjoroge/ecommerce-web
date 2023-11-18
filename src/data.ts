@@ -17,9 +17,9 @@ export const menu = [
         },
         {
           id: 3,
-          title: "update",
-          url: "/:id",
-          icon: "update.svg",
+          title: "Sign Out",
+          url: "/SignOut",
+          icon: "logOut.svg",
         },
       ],
     },
