@@ -25,35 +25,10 @@ export  async function fetchProduct(id:string) {
   }
 }
 
-
-
-
-// export  async function updateProduct(title:string, description:string, amount:string,rating:string, imageUrl:string, id:string) {
-//   try {
-//     const { data, error } = await supabase
-//         .from("shop_items")
-//         .update([
-//           {
-//             title,
-//             description,
-//             amount,
-//             rating,
-//             imageUrl,
-//           },
-//         ])
-//         .eq("id", id);
-//    if(data){
-
-//    }
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 export  async function updateProduct({title,description,amount,rating,imageUrl,id} :{title:string,description:string,amount:string,rating:string,imageUrl:string,id:string}) {
   console.log('here' ,imageUrl);
   try {
-    const { data, error } = await supabase
+    const { data} = await supabase
         .from("shop_items")
         .update([
           {

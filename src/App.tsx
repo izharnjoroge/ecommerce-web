@@ -13,15 +13,38 @@ import "./globals/main.scss";
 import Auth from "./pages/auth/userCreation/auth";
 import { useAuthContext } from "./authContext/auth_context";
 import SignOut from "./pages/auth/signOut/signOut";
+import supabase from "./config/client";
+import { useEffect, useState } from "react";
 
 const App = () => {
   //GLobal Auth value
+  /* changed from using context because data is lost when reloaded*/
   const { isAuth } = useAuthContext();
-  const isAuthenticated = isAuth;
+
+  //Auth State
+  const [authenticated, setAuthentication] = useState(false);
+  const [layout, setLayout] = useState(false);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      const session = data?.session;
+      console.log(session);
+
+      if (session) {
+        setAuthentication(true);
+      } else if (!session) {
+      } else {
+      }
+    };
+
+    checkSession();
+  }, []);
 
   // ProtectedRoute HOC
   const ProtectedRoute = ({ element, path }: any) => {
-    return isAuthenticated ? (
+    return authenticated ? (
       element
     ) : (
       <Navigate to="/" replace state={{ from: path }} />
@@ -31,9 +54,9 @@ const App = () => {
   const Layout = () => {
     return (
       <div className="main">
-        {!isAuthenticated ? null : <Navbar />}
+        {!layout ? null : <Navbar />}
         <div className="container">
-          {!isAuthenticated ? null : (
+          {!layout ? null : (
             <div className="menu-container">
               <Sidebar />
             </div>
@@ -79,3 +102,6 @@ const App = () => {
 };
 
 export default App;
+function useAuth(): { session: any; signOut: any } {
+  throw new Error("Function not implemented.");
+}

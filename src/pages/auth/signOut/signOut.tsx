@@ -10,10 +10,14 @@ const SignOut = () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       alert(error);
+      setAuth(false);
+      navigate("/", { replace: true });
+    } else {
+      alert("Logged Out");
+      setAuth(false);
+      navigate("/", { replace: true });
     }
-    alert("Logged Out");
-    setAuth(false);
-    navigate("/");
+    navigate("/", { replace: true });
   }
 
   return <button onClick={logOut}>signOut</button>;

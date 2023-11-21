@@ -15,10 +15,6 @@ const Create = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | "">();
 
-  //Functions
-  //upload images
-  async function uploadFile(file: File) {}
-
   //update state variables
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import supabase from "../../../config/client";
-import { useNavigate } from "react-router-dom";
+import { Router, useNavigate } from "react-router-dom";
 import "./auth.scss";
 import { useAuthContext } from "../../../authContext/auth_context";
 
@@ -168,9 +168,6 @@ const Auth = () => {
   //set global value
   const { setAuth } = useAuthContext();
 
-  //Error State
-  const [formError, setFormError] = useState<string | null>();
-
   // Default to SignUp mode
   const [authMode, setAuthMode] = useState<AuthMode>(AuthMode.SignIn);
 
@@ -200,20 +197,23 @@ const Auth = () => {
     if (error) {
       alert(error);
       return;
-    }
-    if (data) {
-    }
+    } else if (data) {
+      setFormData({
+        email: "",
+        password: "",
+      });
 
-    setFormData({
-      email: "",
-      password: "",
-    });
+      const successMessage =
+        authMode === AuthMode.SignUp
+          ? "Account created successfully"
+          : "Welcome";
+      alert(successMessage);
+      setAuth(true);
 
-    const successMessage =
-      authMode === AuthMode.SignUp ? "Account created successfully" : "Welcome";
-    alert(successMessage);
-    setAuth(true);
-    navigate("/home");
+      navigate("/home", { replace: true });
+    } else {
+      return;
+    }
   };
 
   const handleChange = (
