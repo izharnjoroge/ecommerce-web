@@ -3,6 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   Navigate,
+  redirect,
 } from "react-router-dom";
 import Home from "./pages/home/home";
 import Create from "./pages/create/create";
@@ -24,24 +25,34 @@ const App = () => {
   //Auth State
   const [authenticated, setAuthentication] = useState(false);
   const [layout, setLayout] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
+      try {
+        const { data, error } = await supabase.auth.getSession();
 
-      const session = data?.session;
-      console.log(session);
+        const session = data?.session;
+        console.log(session);
 
-      if (session) {
-        setAuthentication(true);
-      } else if (!session) {
-      } else {
+        if (session) {
+          setAuthentication(true);
+          setLayout(true);
+        } else {
+          setAuthentication(false);
+          setLayout(false);
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+        setAuthentication(false);
+        setLayout(false);
+      } finally {
+        setLoading(false);
       }
     };
 
     checkSession();
   }, []);
-
   // ProtectedRoute HOC
   const ProtectedRoute = ({ element, path }: any) => {
     return authenticated ? (
@@ -54,6 +65,7 @@ const App = () => {
   const Layout = () => {
     return (
       <div className="main">
+        {loading && <p>Loading...</p>}
         {!layout ? null : <Navbar />}
         <div className="container">
           {!layout ? null : (
@@ -76,7 +88,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <Auth />,
+          element: authenticated ? <Navigate to="/home" /> : <Auth />,
         },
         {
           path: "/home",
@@ -102,6 +114,7 @@ const App = () => {
 };
 
 export default App;
-function useAuth(): { session: any; signOut: any } {
-  throw new Error("Function not implemented.");
-}
+
+// function useAuth(): { session: any; signOut: any } {
+//   throw new Error("Function not implemented.");
+// }

@@ -77,26 +77,24 @@ export default function home() {
     queryClient.invalidateQueries({ queryKey: ["products"] });
   };
 
-  return (
-    <div>
-      {products && (
-        <div className="items">
-          {products.map((product) => (
-            <div key={product.id} className="items-grid">
-              <ItemsCard
-                id={product.id}
-                created_at={product.created_at}
-                title={product.title}
-                description={product.description}
-                amount={product.amount}
-                rating={product.rating}
-                onDelete={handleDelete}
-              />
-            </div>
-          ))}
+  return products.length === 0 ? (
+    <div>No items</div>
+  ) : (
+    <div className="items">
+      {products.map((product) => (
+        <div key={product.item_id} className="items-grid">
+          <ItemsCard
+            item_id={product.item_id}
+            created_at={product.created_at}
+            name={product.name}
+            description={product.description}
+            amount={product.amount}
+            rating={product.rating}
+            categoryId={product.categoryId}
+            onDelete={handleDelete}
+          />
         </div>
-      )}
-      {error && <div>{error}</div>}
+      ))}
     </div>
   );
 }

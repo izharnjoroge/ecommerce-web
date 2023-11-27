@@ -2,29 +2,36 @@ import { useState } from "react";
 import supabase from "../../config/client";
 import { useNavigate } from "react-router-dom";
 import "./create.scss";
-import { dataInterface } from "../../interface/data";
+import { categoriesInterface } from "../../interface/data";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "../../functions";
 
-const Create = () => {
+export default function Create() {
   //Navigation
   const navigate = useNavigate();
 
   // state
-  const [formData, setFormData] = useState<dataInterface | null>();
-  const [formError, setFormError] = useState<String | null>();
+  // const [formData, setFormData] = useState<dataInterface | null>();
   const [imageFile, setFile] = useState<File | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | "">();
 
+  //Get categories because of category ids
+  const { isPending, error, data } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
   //update state variables
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData!,
-      [name]: value,
-    });
-  };
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData!,
+  //     [name]: value,
+  //   });
+  // };
 
   //convert image to url
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +54,21 @@ const Create = () => {
   //submit data to db
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const name = (
+      e.currentTarget.elements.namedItem("title") as HTMLInputElement
+    ).value;
+    const description = (
+      e.currentTarget.elements.namedItem("description") as HTMLInputElement
+    ).value;
+    const amount = (
+      e.currentTarget.elements.namedItem("amount") as HTMLInputElement
+    ).value;
+    const rating = (
+      e.currentTarget.elements.namedItem("rating") as HTMLInputElement
+    ).value;
+    const categoryId = (
+      e.currentTarget.elements.namedItem("category") as HTMLSelectElement
+    ).value;
     const { data, error } = await supabase.storage
       .from("test")
       .upload(imageName!, imageFile!);
@@ -57,27 +79,28 @@ const Create = () => {
     if (data) {
       const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
       const image = publicUrl.data.publicUrl;
-      const { title, description, amount, rating } = formData!;
-      const { data, error } = await supabase.from("shop_items").insert([
+
+      const { data, error } = await supabase.from("items").insert([
         {
-          title,
+          name,
           description,
+          image,
           amount,
           rating,
-          image,
+          categoryId,
         },
       ]);
       if (error) {
-        setFormError("Error setting record");
+        alert(error.message);
         return;
       }
       if (data) {
       }
-
-      setFormData(null);
-      setFormError(null);
+      setSelectedImage(null);
+      setFile(null);
+      setImageName("");
       alert("product added successfully");
-      navigate("/home");
+      navigate("/");
     }
   };
 
@@ -86,6 +109,12 @@ const Create = () => {
     setSelectedImage(null);
     setFile(null);
   };
+
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  const categories: categoriesInterface[] = data || [];
 
   return (
     <div className="form-screen">
@@ -96,11 +125,30 @@ const Create = () => {
             <input
               type="text"
               name="title"
+              id="title"
               required
               className="form-inputs"
-              value={formData?.title ?? ""}
-              onChange={handleChange}
             />
+          </div>
+        </div>
+        <div className="form-div">
+          <label>Category:</label>
+          <div>
+            <select
+              name="category"
+              id="category"
+              required
+              className="form-inputs"
+            >
+              <option value="" disabled defaultValue={""} key={1}>
+                Select a category
+              </option>
+              {categories.map((category) => (
+                <option key={category.category_id} value={category.category_id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="form-div">
@@ -108,24 +156,17 @@ const Create = () => {
           <div>
             <textarea
               name="description"
+              id="description"
               maxLength={255}
               required
               className="form-inputs"
-              value={formData?.description ?? ""}
-              onChange={handleChange}
             />
           </div>
         </div>
         <div className="form-div">
           <label>Amount:</label>
           <div>
-            <input
-              name="amount"
-              required
-              className="form-inputs"
-              value={formData?.amount ?? ""}
-              onChange={handleChange}
-            />
+            <input name="amount" id="amount" required className="form-inputs" />
           </div>
         </div>
         <div className="form-div">
@@ -133,12 +174,11 @@ const Create = () => {
           <div>
             <input
               name="rating"
+              id="rating"
               min={1}
               max={10}
               required
               className="form-inputs"
-              value={formData?.rating ?? ""}
-              onChange={handleChange}
             />
           </div>
         </div>
@@ -155,7 +195,6 @@ const Create = () => {
                 className="form-inputs"
                 type="file"
                 accept="image/*"
-                value={formData?.image ?? ""}
                 required
                 onChange={handleImageChange}
               />
@@ -175,9 +214,6 @@ const Create = () => {
           Submit
         </button>
       </form>
-      {formError && <p>{formError}</p>}
     </div>
   );
-};
-
-export default Create;
+}

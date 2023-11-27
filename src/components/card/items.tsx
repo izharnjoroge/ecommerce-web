@@ -15,7 +15,7 @@ const ItemsCard = (props: ItemsCardProps) => {
     const { data, error } = await supabase
       .from("shop_items")
       .delete()
-      .eq("id", props.id);
+      .eq("id", props.item_id);
     if (error) {
       setError("unable to delete record");
       return;
@@ -23,15 +23,15 @@ const ItemsCard = (props: ItemsCardProps) => {
     if (data) {
     }
     alert("record deleted");
-    props.onDelete(props.id);
+    props.onDelete(props.item_id);
   };
   return (
     <div className="items-card">
-      <h3>{props.title}</h3>
+      <h3>{props.name}</h3>
       <p>{props.description}</p>
       <h6>{props.amount}</h6>
       <h6 className="item-rating">{props.rating}</h6>
-      <Link to={"/" + props.id}>
+      <Link to={"/" + props.item_id}>
         <img
           src="edit.svg"
           alt=""

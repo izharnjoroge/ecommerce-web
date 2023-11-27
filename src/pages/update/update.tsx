@@ -41,7 +41,7 @@ export default function Update() {
     onSuccess: (newProduct) => {
       queryClient.setQueryData(["products"], newProduct);
       alert("Successfully updated");
-      navigate("/home");
+      navigate("/");
     },
     onError(error) {
       alert(error);
@@ -99,9 +99,9 @@ export default function Update() {
       const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
       const image = publicUrl.data.publicUrl;
       console.log(image);
-      const { title, description, amount, rating } = formData![0];
+      const { name, description, amount, rating } = formData![0];
       mutation.mutate({
-        title: title,
+        name: name,
         description: description,
         amount: amount,
         rating: rating,
@@ -127,7 +127,7 @@ export default function Update() {
               type="text"
               name="title"
               className="form-inputs"
-              value={formData![0].title}
+              value={formData![0].name}
               onChange={handleChange}
             />
           </div>
@@ -168,7 +168,18 @@ export default function Update() {
             />
           </div>
         </div>
-
+        <div className="form-div">
+          <label>Category:</label>
+          <div>
+            <textarea
+              name="category"
+              maxLength={255}
+              className="form-inputs"
+              value={formData![0].categoryId}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
         <div className="form-div">
           <label>Image:</label>
           <div>

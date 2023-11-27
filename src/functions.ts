@@ -1,9 +1,9 @@
 import supabase from "./config/client";
-import { dataInterface } from "./interface/data";
+import { categoriesInterface, dataInterface } from "./interface/data";
 
 export async function fetchProducts() {
   try {
-    const { data } = await supabase.from("shop_items").select();
+    const { data } = await supabase.from("items").select();
     const products: dataInterface[] = data || [];
     return products;
   } catch (error) {
@@ -14,9 +14,9 @@ export async function fetchProducts() {
 export  async function fetchProduct(id:string) {
   try {
     const { data} = await supabase
-        .from("shop_items")
+        .from("items")
         .select()
-        .eq("id", id)
+        .eq("item_id", id)
         .limit(1);
     const product: dataInterface[] = data || [];
     return product;
@@ -25,14 +25,14 @@ export  async function fetchProduct(id:string) {
   }
 }
 
-export  async function updateProduct({title,description,amount,rating,imageUrl,id} :{title:string,description:string,amount:string,rating:string,imageUrl:string,id:string}) {
+export  async function updateProduct({name,description,amount,rating,imageUrl,id} :{name:string,description:string,amount:string,rating:string,imageUrl:string,id:string}) {
   console.log('here' ,imageUrl);
   try {
     const { data} = await supabase
-        .from("shop_items")
+        .from("items")
         .update([
           {
-            title,
+            name,
             description,
             amount,
             rating,
@@ -43,6 +43,17 @@ export  async function updateProduct({title,description,amount,rating,imageUrl,i
    if(data){
 
    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getCategories() {
+  try {
+    const { data } = await supabase.from("categories").select();
+    const products: categoriesInterface[] = data || [];
+    return products;
   } catch (error) {
     throw error;
   }

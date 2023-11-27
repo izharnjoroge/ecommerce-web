@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import supabase from "../../../config/client";
-import { Router, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./auth.scss";
 import { useAuthContext } from "../../../authContext/auth_context";
 
@@ -209,7 +209,6 @@ const Auth = () => {
           : "Welcome";
       alert(successMessage);
       setAuth(true);
-
       navigate("/home", { replace: true });
     } else {
       return;
