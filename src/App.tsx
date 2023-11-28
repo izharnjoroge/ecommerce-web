@@ -23,7 +23,7 @@ const App = () => {
   const { isAuth } = useAuthContext();
 
   //Auth State
-  const [authenticated, setAuthentication] = useState(false);
+  const [authenticated, setAuthentication] = useState<boolean | null>(null);
   const [layout, setLayout] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -31,10 +31,7 @@ const App = () => {
     const checkSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-
         const session = data?.session;
-        console.log(session);
-
         if (session) {
           setAuthentication(true);
           setLayout(true);
@@ -52,7 +49,12 @@ const App = () => {
     };
 
     checkSession();
-  }, []);
+  });
+
+  if (loading) {
+    console.log("running");
+    return <p>Loading...</p>;
+  }
   // ProtectedRoute HOC
   const ProtectedRoute = ({ element, path }: any) => {
     return authenticated ? (
@@ -114,7 +116,3 @@ const App = () => {
 };
 
 export default App;
-
-// function useAuth(): { session: any; signOut: any } {
-//   throw new Error("Function not implemented.");
-// }
