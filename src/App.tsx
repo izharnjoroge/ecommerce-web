@@ -52,7 +52,6 @@ const App = () => {
   });
 
   if (loading) {
-    console.log("running");
     return <p>Loading...</p>;
   }
   // ProtectedRoute HOC

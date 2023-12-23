@@ -1,6 +1,9 @@
 @import '../../globals/globals.scss';
 
 .menu {
+  position: sticky;
+  top: 0;
+  left: 0;
   .item {
     display: flex;
     flex-direction: column;

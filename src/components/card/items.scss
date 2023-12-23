@@ -3,7 +3,7 @@
 .items-card{
     position: relative;
     color: $main-color;
-    overflow: hidden;
+    overflow-y: auto;
     border-right: 2px solid white;
     max-height: 150px;
     min-height: 150px;

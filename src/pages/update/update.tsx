@@ -98,7 +98,6 @@ export default function Update() {
     if (data) {
       const publicUrl = supabase.storage.from("test").getPublicUrl(imageName!);
       const image = publicUrl.data.publicUrl;
-      console.log(image);
       const { name, description, amount, rating } = formData![0];
       mutation.mutate({
         name: name,
