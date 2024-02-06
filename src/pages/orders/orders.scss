@@ -1,0 +1,25 @@
+@import "../../globals/globals.scss";
+
+.items {
+  row-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  .order-items-parent {
+    display: flex;
+    flex-direction: column;
+    .order-items {
+      border: 2px solid #fff;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+
+      .order-items-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+      }
+    }
+  }
+}

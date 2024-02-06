@@ -16,6 +16,7 @@ import { useAuthContext } from "./authContext/auth_context";
 import SignOut from "./pages/auth/signOut/signOut";
 import supabase from "./config/client";
 import { useEffect, useState } from "react";
+import Orders from "./pages/orders/orders";
 
 const App = () => {
   //GLobal Auth value
@@ -102,6 +103,10 @@ const App = () => {
         {
           path: "/:id",
           element: <ProtectedRoute element={<Update />} />,
+        },
+        {
+          path: "/orders",
+          element: <ProtectedRoute element={<Orders />} />,
         },
         {
           path: "/signOut",
